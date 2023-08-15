@@ -1,5 +1,6 @@
 import azure.functions as func
 import pymongo
+import os
 from bson.objectid import ObjectId
 
 
@@ -9,10 +10,10 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     if id:
         try:
-            url = "localhost"  # TODO: Update with appropriate MongoDB connection information
+            url = os.environ.get("MongoDbString")
             client = pymongo.MongoClient(url)
-            database = client['azure']
-            collection = database['advertisements']
+            database = client['udc-neighborly-db']
+            collection = database['ads']
             
             query = {'_id': ObjectId(id)}
             result = collection.delete_one(query)

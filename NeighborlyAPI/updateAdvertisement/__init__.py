@@ -1,5 +1,6 @@
 import azure.functions as func
 import pymongo
+import os
 from bson.objectid import ObjectId
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
@@ -9,10 +10,10 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     if request:
         try:
-            url = "localhost"  # TODO: Update with appropriate MongoDB connection information
+            url = os.environ.get("MongoDbString")
             client = pymongo.MongoClient(url)
-            database = client['azure']
-            collection = database['advertisements']
+            database = client['udc-neighborly-db']
+            collection = database['ads']
             
             filter_query = {'_id': ObjectId(id)}
             update_query = {"$set": eval(request)}
