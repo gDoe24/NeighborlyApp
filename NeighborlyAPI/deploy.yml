@@ -1,0 +1,198 @@
+data:
+  AzureWebJobsStorage: RGVmYXVsdEVuZHBvaW50c1Byb3RvY29sPWh0dHBzO0FjY291bnROYW1lPXVkY3Byb2plY3RzdG9yYWdlMTtBY2NvdW50S2V5PTJLeXlEN2ZFQzhPRlpQSUNwaFl6blFwbmhuWEpxeDQ2ZWsxK3ZzZCt6ZE1hd0hiSkx0czlwK3JQOC9RNnFUYkxEbkpoTm9GcHlFaFkrQVN0bS9qTE53PT07RW5kcG9pbnRTdWZmaXg9Y29yZS53aW5kb3dzLm5ldA==
+  FUNCTIONS_WORKER_RUNTIME: cHl0aG9u
+  FUNCTIONS_EXTENSION_VERSION: fjQ=
+  MongoDbString: bW9uZ29kYjovL3VkYWNpdHljb3Ntb3NkYjpCWXV2clZaNjI0NXNWbGtvOTlRNGNHMUNtQjNvVXREM1VmY0FPY1JPMjY1Tk9zbHdBYldmSVo3dHlxMmtQV0NQYVA5d2pJYmhXdUp1QUNEYmdDQkNidz09QHVkYWNpdHljb3Ntb3NkYi5tb25nby5jb3Ntb3MuYXp1cmUuY29tOjEwMjU1Lz9zc2w9dHJ1ZSZyZXBsaWNhU2V0PWdsb2JhbGRiJnJldHJ5d3JpdGVzPWZhbHNlJm1heElkbGVUaW1lTVM9MTIwMDAwJmFwcE5hbWU9QHVkYWNpdHljb3Ntb3NkYkA=
+  WEBSITE_CONTENTAZUREFILECONNECTIONSTRING: RGVmYXVsdEVuZHBvaW50c1Byb3RvY29sPWh0dHBzO0FjY291bnROYW1lPXVkY3Byb2plY3RzdG9yYWdlMTtBY2NvdW50S2V5PTJLeXlEN2ZFQzhPRlpQSUNwaFl6blFwbmhuWEpxeDQ2ZWsxK3ZzZCt6ZE1hd0hiSkx0czlwK3JQOC9RNnFUYkxEbkpoTm9GcHlFaFkrQVN0bS9qTE53PT07RW5kcG9pbnRTdWZmaXg9Y29yZS53aW5kb3dzLm5ldA==
+  WEBSITE_CONTENTSHARE: dWRjLXByb2plY3QtZnVuY3Rpb25hcHA4ZjA0
+apiVersion: v1
+kind: Secret
+metadata:
+  name: udc-project-functionapp
+---
+data:
+  host.master: MWtDUEtHYjhBX1FUeGFEcFdlSHhRMmRpRUE5SVJwcFpXSUZWU0lWalU4S2VBekZ1bzItakFnPT0=
+  host.function.default: c0s0TGpvMUprNURYcVFYV2ozLUF2WTZrbzZIdmh2NnFzRHZua25lcmpZY2JBekZ1VkY1cEVnPT0=
+  host.systemKey.default: VWdMU1dLaWt4YVg0QVhRVnZTck4tRWJRSm1vOGxKbUhXQlFmS2hNcHcyeXhBekZ1X2NPVVV3PT0=
+  functions.createadvertisement.default: N2NIc1ZoODZvUXE5U0p5czI5aFJXbDd5VTJkTDdjS3RIbjZGVktTWXV1bWJBekZ1SWVBMkJ3PT0=
+  functions.deleteadvertisement.default: ajVVTUVlWnB3SlR4TzhSR2hSZWV6bXJSRFJTSXl1QWRCczVmaV9VODFlTnlBekZ1TVBpVENRPT0=
+  functions.getadvertisement.default: ZVZJRU9rS0pfa3h1ZHRPbjNMa09JMzAyTS0tVzJPdFBYRjgwdURKNERKY2pBekZ1Z0p3UnhBPT0=
+  functions.getadvertisements.default: RE5WdVNtRUg5ZjQtQ2NwekFnNlppOXNUYi02YVJ2TS1nSHNGbWR0cmRFalRBekZ1bTI5dUJnPT0=
+  functions.getpost.default: RXJNajBpTkprNExMU1lpdVhydXU5RGRkdWpfb0ctaW91UExURktBZGVGS2hBekZ1ZmJnd3RnPT0=
+  functions.getposts.default: N2FLR0Y2WU9ISGNLRnJ5dTRDaEdBN1BPSjNXcWdZb29fVU80TEpPcjVsbmJBekZ1aGE1SEtRPT0=
+  functions.updateadvertisement.default: VXFZN0RDbnNzZGs0ck1oc1B1ZWowQ1lHRVdYMlJXZmdyNVUtMGUyc0J0ckxBekZ1NHA0Rk5RPT0=
+apiVersion: v1
+kind: Secret
+metadata:
+  name: func-keys-kube-secret-udc-project-functionapp
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: udc-project-functionapp-function-keys-identity-svc-act
+---
+rules:
+- apiGroups:
+  - ''
+  resources:
+  - secrets
+  - configMaps
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: functions-keys-manager-role
+---
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: functions-keys-manager-role
+subjects:
+- kind: ServiceAccount
+  name: udc-project-functionapp-function-keys-identity-svc-act
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: udc-project-functionapp-function-keys-identity-svc-act-functions-keys-manager-rolebinding
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: udc-project-functionapp-http
+spec:
+  selector:
+    app: udc-project-functionapp-http
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: udc-project-functionapp-http
+  labels:
+    app: udc-project-functionapp-http
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: udc-project-functionapp-http
+  template:
+    metadata:
+      labels:
+        app: udc-project-functionapp-http
+    spec:
+      containers:
+      - name: udc-project-functionapp-http
+        image: udcneighborlyapp/udc-project-functionapp:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: AzureFunctionsJobHost__functions__0
+          value: createAdvertisement
+        - name: AzureFunctionsJobHost__functions__1
+          value: deleteAdvertisement
+        - name: AzureFunctionsJobHost__functions__2
+          value: getAdvertisement
+        - name: AzureFunctionsJobHost__functions__3
+          value: getAdvertisements
+        - name: AzureFunctionsJobHost__functions__4
+          value: getPost
+        - name: AzureFunctionsJobHost__functions__5
+          value: getPosts
+        - name: AzureFunctionsJobHost__functions__6
+          value: updateAdvertisement
+        - name: AzureWebJobsSecretStorageType
+          value: kubernetes
+        - name: AzureWebJobsKubernetesSecretName
+          value: secrets/func-keys-kube-secret-udc-project-functionapp
+        envFrom:
+        - secretRef:
+            name: udc-project-functionapp
+        readinessProbe:
+          failureThreshold: 3
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 240
+          httpGet:
+            path: /
+            port: 80
+            scheme: HTTP
+        startupProbe:
+          failureThreshold: 3
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 240
+          httpGet:
+            path: /
+            port: 80
+            scheme: HTTP
+      serviceAccountName: udc-project-functionapp-function-keys-identity-svc-act
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: udc-project-functionapp
+  labels:
+    app: udc-project-functionapp
+spec:
+  selector:
+    matchLabels:
+      app: udc-project-functionapp
+  template:
+    metadata:
+      labels:
+        app: udc-project-functionapp
+    spec:
+      containers:
+      - name: udc-project-functionapp
+        image: udcneighborlyapp/udc-project-functionapp:latest
+        env:
+        - name: AzureFunctionsJobHost__functions__0
+          value: eventHubTrigger
+        envFrom:
+        - secretRef:
+            name: udc-project-functionapp
+        readinessProbe:
+          failureThreshold: 3
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 240
+          httpGet:
+            path: /
+            port: 80
+            scheme: HTTP
+        startupProbe:
+          failureThreshold: 3
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 240
+          httpGet:
+            path: /
+            port: 80
+            scheme: HTTP
+      serviceAccountName: udc-project-functionapp-function-keys-identity-svc-act
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: udc-project-functionapp
+  labels: {}
+spec:
+  scaleTargetRef:
+    name: udc-project-functionapp
+  triggers:
+  - type: eventgridtrigger
+    metadata:
+      direction: in
+---
+
