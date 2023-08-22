@@ -5,8 +5,8 @@
       "type": "eventGridTrigger",
       "name": "event",
       "direction": "in",
-      "connection": "udc-neighborly-namespace.eastus-1.eventgrid.azure.net"
+      "connection": "https://udc-neighborly-event-grid.eastus2-1.eventgrid.azure.net/api/events"
 	  }
   ]
 }
-
+ 

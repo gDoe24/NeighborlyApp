@@ -15,6 +15,9 @@ containerRegistry=udcneighborlyapp
 AKSCluster=UdcNeighborlyCluster
 imageName=udc-microservices-project
 imageTag=v1
+########################################
+topicName=udc-neighborly-topic
+namespace=udc-neighborly-namespace
 echo "=======Local Environment Variables======"
 echo "functionApp = "$functionApp
 echo "resourceGroup = "$resourceGroup
@@ -27,4 +30,6 @@ echo "containerRegistry = "$containerRegistry
 echo "AKSCluster = "$AKSCluster
 echo "imageName = "$imageName
 echo "imageTag = "$imageTag
+echo "topicName = "$topicName
+echo "namespace = "$namespace
 echo "=======End of Result======"
